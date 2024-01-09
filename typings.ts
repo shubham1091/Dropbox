@@ -1,3 +1,4 @@
+// defination of file object 
 export type FileType = {
     id: string;
     filename: string;

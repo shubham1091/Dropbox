@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // whitelisted url for images 
     images:{
         remotePatterns:[
             {

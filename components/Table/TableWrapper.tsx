@@ -15,15 +15,19 @@ function TableWrapper({ skeletonFiles }: { skeletonFiles: FileType[] }) {
   const [initialFiles, setInitialFiles] = useState<FileType[]>([]);
   const [sort, setSort] = useState<"asc" | "desc">("desc");
 
+  //https://github.com/CSFrequency/react-firebase-hooks/tree/master/firestore
   const [docs, loading, error] = useCollection(
     user &&
-      query(
-        collection(db, "users", user.id, "files"),
-        orderBy("timestamp", sort)
-      )
+    query(
+      collection(db, "users", user.id, "files"),
+      orderBy("timestamp", sort)
+    )
   );
+
+  // everytime a new file get uploaded
   useEffect(() => {
     if (!docs) return;
+
     const files: FileType[] = docs.docs.map((doc) => ({
       id: doc.id,
       filename: doc.data().filename || doc.id,
@@ -33,10 +37,12 @@ function TableWrapper({ skeletonFiles }: { skeletonFiles: FileType[] }) {
       type: doc.data().type,
       size: doc.data().size,
     }));
+
     setInitialFiles(files);
   }, [docs]);
 
-  if (docs?.docChanges.length === undefined)
+  // if the files are not lodead show a skeleton
+  if (docs?.docChanges.length === undefined) {
     return (
       <div className="flex flex-col">
         <Button variant={"outline"} className="ml-auto w-36 h-10 mb-5">
@@ -63,19 +69,20 @@ function TableWrapper({ skeletonFiles }: { skeletonFiles: FileType[] }) {
         </div>
       </div>
     );
-
-  return (
-    <div className="flex flex-col space-y-5 pb-10">
-      <Button
-        variant={"outline"}
-        onClick={() => setSort(sort === "desc" ? "asc" : "desc")}
-        className="ml-auto w-36 h-10 mb-5"
-      >
-        Sort By {sort === "desc" ? "Newest" : "Oldest"}
-      </Button>
-      <DataTable columns={columns} data={initialFiles} />
-    </div>
-  );
+  } else {
+    return (
+      <div className="flex flex-col space-y-5 pb-10">
+        <Button
+          variant={"outline"}
+          onClick={() => setSort(sort === "desc" ? "asc" : "desc")}
+          className="ml-auto w-36 h-10 mb-5"
+        >
+          Sort By {sort === "desc" ? "Newest" : "Oldest"}
+        </Button>
+        <DataTable columns={columns} data={initialFiles} />
+      </div>
+    );
+  }
 }
 
 export default TableWrapper;

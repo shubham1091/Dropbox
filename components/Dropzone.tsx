@@ -1,8 +1,7 @@
 "use client";
+import { db, storage } from "@/firebase";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import DropzoneComponent from "react-dropzone";
 import {
   addDoc,
   collection,
@@ -10,13 +9,14 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db, storage } from "@/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useState } from "react";
+import DropzoneComponent from "react-dropzone";
 import toast from "react-hot-toast";
 
 function Dropzone() {
   const [loading, setLoading] = useState(false);
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { user } = useUser();
   const onDrop = (acceptedFiles: File[]) => {
     acceptedFiles.forEach((file) => {
       const reader = new FileReader();
@@ -31,11 +31,11 @@ function Dropzone() {
   };
 
   const uploadPost = async (selectedFile: File) => {
-    if (loading) return;
-    if (!user) return;
+    if (loading || !user) return;
     setLoading(true);
     const toastId = toast.loading("Uploading...");
     //do something with selected
+    //https://firebase.google.com/docs/firestore/manage-data/add-data#add_a_document
     const docRef = await addDoc(collection(db, "users", user.id, "files"), {
       userId: user.id,
       filename: selectedFile.name,
@@ -48,6 +48,7 @@ function Dropzone() {
     const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`);
     uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
       const downloadURL = await getDownloadURL(imageRef);
+      //https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
       await updateDoc(doc(db, "users", user.id, "files", docRef.id), {
         downloadURL: downloadURL,
       });

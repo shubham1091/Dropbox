@@ -17,6 +17,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import toast from "react-hot-toast";
 
+//https://ui.shadcn.com/docs/components/dialog
 export function DeleteModal() {
   const { user } = useUser();
   const [isDeleteModalOpen, setIsDeleteModalOpen, fileId, setFileId] =
@@ -26,15 +27,20 @@ export function DeleteModal() {
       state.fileId,
       state.setFileId,
     ]);
+
+
   async function deleteFile() {
     if (!user || !fileId) return;
+
     const toastId = toast.loading("Deleting...");
 
     const fileRef = ref(storage, `users/${user.id}/files/${fileId}`);
     try {
+      //https://firebase.google.com/docs/storage/web/delete-files
       deleteObject(fileRef)
         .then(async () => {
           console.log("Deleting File");
+          //https://firebase.google.com/docs/firestore/manage-data/delete-data
           deleteDoc(doc(db, "users", user.id, "files", fileId)).then(() => {
             console.log("successfully deleted");
             toast.success("Deleted successfully", {
@@ -84,7 +90,7 @@ export function DeleteModal() {
             size="sm"
             className="px-3 flex-1"
             variant={"destructive"}
-            onClick={() => deleteFile()}
+            onClick={deleteFile}
           >
             <span className="sr-only">Delete</span>
             <span>Delete</span>

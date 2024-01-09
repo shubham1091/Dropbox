@@ -18,7 +18,7 @@ async function Dashboard() {
     type: doc.data().type,
     size: doc.data().size,
   }));
-  // console.log(skeletonFiles);
+  console.log(skeletonFiles);
   return (
     <div className="border-t">
       <Dropzone />

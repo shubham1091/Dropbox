@@ -1,3 +1,4 @@
+//https://docs.pmnd.rs/zustand/guides/typescript
 import { create } from 'zustand'
 
 interface AppState {

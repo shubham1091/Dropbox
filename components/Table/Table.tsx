@@ -22,6 +22,7 @@ import { useAppStore } from "@/store/store";
 import { DeleteModal } from "../DeleteModal";
 import RenameModal from "../RenameModal";
 
+//https://ui.shadcn.com/docs/components/data-table#basic-table
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -45,15 +46,18 @@ export function DataTable<TData, TValue>({
       state.setFilename,
       state.setIsRenameModalOpen,
     ]);
+
   const openDeletModal = (fileId: string) => {
     setFileId(fileId);
     setIsDeleteModalOpen(true);
   };
+
   const openRenameModal = (fileId: string, filename: string) => {
     setFileId(fileId);
     setFilename(filename);
     setIsRenameModalOpen(true);
   };
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -76,6 +80,7 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
+          {/* conditional rendring a tabel if there is files  */}
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow

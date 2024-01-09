@@ -1,3 +1,4 @@
+// defined colors for different file types most of them are black
 export const COLOR_EXTENSION_MAP: { [key: string]: string; } = {
     pdf: "#0160fe",
     docx: "#2b579a",
