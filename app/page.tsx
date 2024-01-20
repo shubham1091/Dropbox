@@ -38,7 +38,10 @@ export default function Home() {
       </div>
       <p className="text-center font-bold text-xl pt-5">Desclaimer</p>
       <p className="text-center font-light p-2">
-        This is made for informational and educational purposes only. 
+        This video is made for informational and educational purposes only. We
+        do not own or affliate with Dropbox or/and any of its subsidiaries in
+        any form. Copyright Desclaimer under section 107 of copyright Act 1976,
+        allowance is made for "fair use" of this video for education purposes.
       </p>
     </main>
   );

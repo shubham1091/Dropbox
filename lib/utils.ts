@@ -1,4 +1,3 @@
-// this file is created by shadcn 
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
  

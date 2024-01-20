@@ -3,18 +3,17 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DAMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+    apiKey: "AIzaSyAIPszGtR71YGQ0j5mTY0LrHx2os2OCxcA",
+    authDomain: "dropbox-clone-a9d2a.firebaseapp.com",
+    projectId: "dropbox-clone-a9d2a",
+    storageBucket: "dropbox-clone-a9d2a.appspot.com",
+    messagingSenderId: "458757305594",
+    appId: "1:458757305594:web:bb7ecb870b4a9511144543"
 };
 
-//if the app is initialized get the app other wise initialize it from config
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export { db, storage };
+export {db,storage};

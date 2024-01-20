@@ -25,7 +25,6 @@ function RenameModal() {
     if(!user || !fileId) return;
 
     const toastId = toast.loading("Renaming....")
-    //https://firebase.google.com/docs/firestore/manage-data/add-data#update-data
     await updateDoc(doc(db, "users", user.id, "files",fileId),{
         filename: input,
     });
